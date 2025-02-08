@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Birthday</title>
+    <style>
+      /* Body and basic page setup */
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #ffb9aa;
+        font-family: Arial, sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        position: relative;
+      }
+
+      /* Falling hearts container */
+      .falling-hearts {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 9999;
+      }
+
+      /* Heart styling */
+      .falling-hearts .heart {
+        position: absolute;
+        font-size: 30px;
+        animation: fall 5s linear infinite, move 3s ease-in-out infinite;
+        opacity: 0;
+      }
+
+      /* Keyframes for heart falling animation */
+      @keyframes fall {
+        0% {
+          top: -50px;
+          opacity: 1;
+          transform: translateX(0);
+        }
+        100% {
+          top: 100vh;
+          opacity: 0;
+          transform: translateX(calc(-200px + 400px * random()));
+        }
+      }
+
+      /* Random direction animation */
+      @keyframes move {
+        0% {
+          transform: translateX(0);
+        }
+        50% {
+          transform: translateX(50px) rotate(30deg);
+        }
+        100% {
+          transform: translateX(-50px) rotate(-30deg);
+        }
+      }
+
+      /* Birthday card styles */
+      .birthdayCard {
+        position: relative;
+        width: 250px;
+        height: 350px;
+        cursor: pointer;
+        transform-style: preserve-3d;
+        transform: perspective(2500px);
+        transition: 1s;
+      }
+
+      .birthdayCard:hover {
+        transform: perspective(2500px) rotate(5deg);
+        box-shadow: inset 100px 20px 100px rgba(0, 0, 0, 0.2), 0 10px 100px rgba(0, 0, 0, 0.5);
+      }
+
+      .birthdayCard:hover .cardFront {
+        transform: rotateY(-160deg);
+      }
+
+      .birthdayCard:hover .happy {
+        visibility: hidden;
+      }
+
+      .cardFront {
+        position: relative;
+        background-color: #fff;
+        width: 250px;
+        height: 350px;
+        overflow: hidden;
+        transform-origin: left;
+        box-shadow: inset 100px 20px 100px rgba(0, 0, 0, 0.2), 30px 0 50px rgba(0, 0, 0, 0.4);
+        transition: 0.6s;
+      }
+
+      .happy {
+        font-family: Tahoma, sans-serif;
+        text-align: center;
+        margin: 30px;
+        background-image: linear-gradient(120deg, #ffd856 0%, #f98c6e 100%);
+        font-size: 24px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #fff;
+        transition: 0.1s;
+      }
+
+      .balloons {
+        position: absolute;
+      }
+
+      .balloon-1,
+      .balloon-2,
+      .balloon-3,
+      .balloon-4 {
+        position: absolute;
+        width: 85px;
+        height: 95px;
+        border-radius: 50%;
+      }
+
+      .balloon-1 {
+        background-color: rgba(255, 40, 90, 0.7);
+        left: -10px;
+        top: 50px;
+      }
+
+      .balloon-2 {
+        background-color: rgba(9, 215, 160, 0.7);
+        left: 50px;
+        top: 20px;
+      }
+
+      .balloon-3 {
+        background-color: rgba(255, 186, 26, 0.7);
+        left: 110px;
+        top: 50px;
+      }
+
+      .balloon-4 {
+        background-color: rgba(12, 122, 159, 0.7);
+        left: 170px;
+        top: 50px;
+      }
+
+      .balloon-1::before,
+      .balloon-2::before,
+      .balloon-3::before,
+      .balloon-4::before {
+        content: "";
+        position: absolute;
+        width: 1px;
+        height: 155px;
+        background-color: #ffc848;
+        top: 95px;
+        left: 43px;
+      }
+
+      .balloon-1::after,
+      .balloon-2::after,
+      .balloon-3::after,
+      .balloon-4::after {
+        content: "";
+        position: absolute;
+        border-right: 7px solid transparent;
+        border-left: 7px solid transparent;
+        top: 94px;
+        left: 37px;
+      }
+
+      .balloon-1::after {
+        border-bottom: 10px solid #ff3e6b;
+      }
+
+      .balloon-2::after {
+        border-bottom: 10px solid #04b183;
+      }
+
+      .balloon-3::after {
+        border-bottom: 10px solid #ffc94c;
+      }
+
+      .balloon-4::after {
+        border-bottom: 10px solid #13a9bd;
+      }
+
+      .cardInside {
+        position: absolute;
+        background-color: #fff;
+        width: 250px;
+        height: 350px;
+        z-index: -1;
+        left: 0;
+        top: 0;
+        box-shadow: inset 100px 20px 100px rgba(0, 0, 0, 0.2);
+      }
+
+      p {
+        font-family: "Brush Script MT", cursive;
+        margin: 40px;
+        color: #333;
+        text-align: center;
+        font-size: 16px;
+      }
+
+      .name {
+        position: relative;
+        left: 72px;
+        top: 215px;
+        color: #333;
+      }
+
+      .back {
+        font-family: Tahoma, sans-serif;
+        color: #333;
+        text-align: center;
+        margin: 30px;
+        outline-color: #333;
+        outline-style: dotted;
+      }
+
+      .baccha {
+        position: absolute;
+        left: 74px;
+        top: 45px;
+        color: #333;
+        background: linear-gradient(red, transparent), linear-gradient(to top left, lime, transparent), linear-gradient(to top right, blue, transparent);
+        background-blend-mode: screen;
+        font-size: 20px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #fff;
+        transition: 0.1s;
+      }
+
+      .cong1 {
+        position: absolute;
+        left: -6px;
+        top: 90px;
+        text-align: center;
+      }
+      .cong2 {
+        position: absolute;
+        left: 39px;
+        top: 63px;
+        text-align: center;
+      }
+
+      .urdu {
+        position: absolute;
+        font-family: Tahoma, sans-serif;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        left: -20px;
+        top: 121px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- The falling hearts container -->
+    <div class="falling-hearts" id="fallingHearts"></div>
+
+    <!-- The Birthday Card -->
+    <div class="birthdayCard">
+      <div class="cardFront">
+        <h3 class="happy">HAPPY BIRTHDAY</h3>
+        <h1 class="happy">SOFIA JI</h1>
+        <div class="balloons">
+          <div class="balloon-1"></div>
+          <div class="balloon-2"></div>
+          <div class="balloon-3"></div>
+          <div class="balloon-4"></div>
+        </div>
+      </div>
+      <div class="cardInside">
+        <h3 class="back">HAPPY BIRTHDAY</h3>
+        <h1 class="baccha">Baccha</h1>
+        <h4 class="cong1">आपको जन्मदिन की बहुत बहुत मुबारक बात</h4>
+        <h4 class="cong2">16 वा जन्मदिन मुबारक</h4>
+        <p class="urdu">
+          اللہ آپ کو صحت، خوشی اور کامیابی عطا فرمائے۔آپ کا یہ خاص دن خوشیوں اور محبت سے بھرپور ہو۔جنم دن مبارک! آپ کی زندگی خوشیوں سے بھری ہو۔دنیا کی سب سے پیار کرنے والی، دیکھ بھال کرنے والی اور مہربان گرل فرینڈ کو سالگرہ مبارک ہو۔ آپ ایک ہزار سال اور جیتے رہیں اور اپنی باقی زندگی مجھ سے محبت کرتے رہیں
+        </p>
+        <p class="name">- Khurshed</p>
+      </div>
+    </div>
+
+    <script>
+      // Function to generate random hearts
+      function generateHearts() {
+        const container = document.getElementById("fallingHearts");
+        const numHearts = 20; // Number of hearts to fall at once (you can increase this number)
+
+        for (let i = 0; i < numHearts; i++) {
+          const heart = document.createElement("div");
+          heart.classList.add("heart");
+
+          // Set the heart emoji
+          heart.innerHTML = "❤️";
+          
+          // Randomize the starting position of the heart
+          heart.style.left = `${Math.random() * 100}vw`;
+
+          // Randomize the animation delay for each heart
+          heart.style.animationDelay = `${Math.random() * 5}s, ${Math.random() * 3}s`;
+
+          container.appendChild(heart);
+
+          // Remove the heart after the animation ends to avoid clutter
+          setTimeout(() => {
+            heart.remove();
+          }, 5000); // Match the duration of the animation
+        }
+      }
+
+      // Generate hearts every 1 second
+      setInterval(generateHearts, 1000);
+    </script>
+  </body>
+</html>
